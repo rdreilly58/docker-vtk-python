@@ -2,6 +2,7 @@ import pyvista as pv
 import numpy as np
 
 
+
 def get_fresh_plotter():
     plotter = pv.Plotter()
     xyz_arr = np.random.rand(30000).reshape(10000, 3)
