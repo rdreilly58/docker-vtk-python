@@ -58,4 +58,4 @@ E.g.: `docker run -v /Users/johndoe/your_project/your_source:/src`.
 - source ~/repos/docker-vtk-python/bin/activate
 - python3 -m pip install pyvista
 - python3 plot-cloud.py
->>>>>>> 831d3a3 (initial plot)
+
