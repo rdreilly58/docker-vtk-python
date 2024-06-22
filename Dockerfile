@@ -3,7 +3,7 @@
 #
 # The container contains:python3.4.5, CMake, VTK, Tcl, Tk, OpenGL
 #
-FROM rockylinux:8
+FROM rockylinux:9
 
 
 WORKDIR /tmpbuild
@@ -14,8 +14,8 @@ COPY . .
 # Download sources & setup supporting libraries that are needed to build VTK
 ###################################################################################################################
 # Download & extract VTK
-ADD https://www.vtk.org/files/release/8.2/VTK-8.2.0.tar.gz /tmpbuild
-RUN tar -zxvf VTK-8.2.0.tar.gz
+ADD https://www.vtk.org/files/release/9.3/VTK-9.3.0.tar.gz /tmpbuild
+RUN tar -zxvf VTK-9.3.0.tar.gz
 
 
 RUN dnf install -y epel-release
@@ -30,22 +30,24 @@ RUN cd /tmpbuild/cmake-3.25.3 && make
 RUN cd /tmpbuild/cmake-3.25.3 && make install
 
 # Install OpenGL
+RUN dnf install -y mesa-libGL mesa-libGL-devel libX11-devel libXt-devel
+RUN dnf install -y tcl tk python-devel python
 # Debian, Ubuntu
 # https://en.wikibooks.org/wiki/OpenGL_Programming/Installation/Linux
-RUN dnf update && dnf group install --yes "Development Tools"
+# RUN dnf update && dnf group install --yes "Development Tools"
 
 
 # Download & build Tcl
 # https://www.tcl.tk/doc/howto/compile.html#unix
-# ADD https://prdownloads.sourceforge.net/tcl/tcl8.6.6-src.tar.gz /tmpbuild
-RUN tar -zxvf tcl8.6.6-src.tar.gz
-RUN cd /tmpbuild/tcl8.6.6/unix
-RUN /tmpbuild/tcl8.6.6/unix/configure && make && make install
+#ADD https://prdownloads.sourceforge.net/tcl/tcl8.6.6-src.tar.gz /tmpbuild
+#RUN tar -zxvf tcl8.6.6-src.tar.gz
+#RUN cd /tmpbuild/tcl8.6.6/unix
+#RUN /tmpbuild/tcl8.6.6/unix/configure && make && make install
 
 # Download & build Tk
 # https://www.tcl.tk/doc/howto/compile.html
-RUN wget http://prdownloads.sourceforge.net/tcl/tk8.6.6-src.tar.gz && tar -zxvf tk8.6.6-src.tar.gz
-RUN cd tk8.6.6/unix && ./configure && make && make install
+#ADD http://prdownloads.sourceforge.net/tcl/tk8.6.6-src.tar.gz && tar -zxvf tk8.6.6-src.tar.gz
+#RUN cd tk8.6.6/unix && ./configure && make && make install
 ###################################################################################################################
 # /end setup
 ###################################################################################################################
@@ -55,7 +57,7 @@ RUN cd tk8.6.6/unix && ./configure && make && make install
 # http://ghoshbishakh.github.io/blog/blogpost/2016/03/05/buid-vtk.html
 ###################################################################################################################
 RUN mkdir /vtk-build2
-RUN cd /vtk-build2/ && cmake \
+RUN cd /vtk-build2 && cmake \
   -DCMAKE_BUILD_TYPE:STRING=Release \
   -DBUILD_TESTING:BOOL=OFF \
   -DVTK_WRAP_PYTHON:BOOL=ON \
@@ -63,10 +65,10 @@ RUN cd /vtk-build2/ && cmake \
   -DVTK_WRAP_TCL:BOOL=ON \
   -DVTK_PYTHON_VERSION:STRING=3 \
   -DVTK_USE_TK:BOOL=ON \
-  /tmpbuild/VTK-7.0.0
+  /tmpbuild/VTK-9.3.0
 
 # Build VTK
-RUN cd /vtk-build2/ && make
+RUN cd /vtk-build2 && make
 
 # Now install the python bindings
 RUN cd /vtk-build2/Wrapping/Python && make && make install
@@ -95,15 +97,6 @@ WORKDIR /src
 
 # Add examples
 ADD examples /examples
-
-# Adding docker-entrypoint & configure
-ADD deployment/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod ugo+x /usr/local/bin/docker-entrypoint.sh
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-
-# Add requirements.txt
-ADD deployment/requirements.txt /tmpbuild
-RUN pip install -r /tmpbuild/requirements.txt
 
 # Enter the bash by default
 CMD ["bash"]
