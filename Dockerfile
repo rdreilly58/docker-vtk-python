@@ -34,7 +34,7 @@ RUN dnf install -y mesa-libGL mesa-libGL-devel libX11-devel libXt-devel
 RUN dnf install -y tcl tk python-devel python
 # Debian, Ubuntu
 # https://en.wikibooks.org/wiki/OpenGL_Programming/Installation/Linux
-# RUN dnf update && dnf group install --yes "Development Tools"
+# RUN dnf update && dnf group install -y "Development Tools"
 
 
 # Download & build Tcl
