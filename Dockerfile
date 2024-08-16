@@ -75,8 +75,8 @@ RUN cd /vtk-build2/Wrapping/Python && make && make install
 
 # Set environment variable to add the VTK libs to the Shared Libraries
 # http://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html
-# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib:/vtk-build2/lib
-ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/local/lib:/vtk-build2/lib
+ENV export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib:/vtk-build2/lib
+# ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/local/lib:/vtk-build2/lib
 ###################################################################################################################
 # /end VTK Build
 ###################################################################################################################
