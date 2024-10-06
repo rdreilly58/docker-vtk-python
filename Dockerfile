@@ -19,6 +19,7 @@ RUN tar -zxvf VTK-9.3.0.tar.gz
 
 
 
+
 RUN dnf install -y epel-release
 RUN dnf install -y --enablerepo=devel gcc-c++ cmake openssl openssl-devel zip which
 
