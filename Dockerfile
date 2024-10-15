@@ -9,6 +9,8 @@ FROM rockylinux:9
 WORKDIR /tmpbuild
 
 COPY . .
+RUN cp *CA.crt /etc/pki/ca-trust/source/anchors
+RUN update-ca-trust
 
 ###################################################################################################################
 # Download sources & setup supporting libraries that are needed to build VTK
