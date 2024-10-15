@@ -4,6 +4,7 @@
 # The container contains:python3.4.5, CMake, VTK, Tcl, Tk, OpenGL
 #
 FROM rockylinux:9
+LABEL maintainer='robertdreilly'
 
 
 WORKDIR /tmpbuild
