@@ -2,4 +2,4 @@
 services:
   web:
     build: .
-    image: docker-vtk-python:1
+    image: docker-vtk-python
