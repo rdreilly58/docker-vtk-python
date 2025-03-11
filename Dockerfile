@@ -13,6 +13,16 @@ COPY . .
 RUN cp *CA.crt /etc/pki/ca-trust/source/anchors
 RUN update-ca-trust
 
+RUN sed -i 's/#installonly_limit=5/installonly_limit=3/' /etc/dnf/dnf.conf
+RUN sed -i 's/#clean_requirements_on_remove=True/clean_requirements_on_remove=True/' /etc/dnf/dnf.conf
+RUN sed -i 's/#fastestmirror=True/fastestmirror=True/' /etc/dnf/dnf.conf
+RUN sed -i 's/#max_parallel_downloads=5/max_parallel_downloads=3/' /etc/dnf/dnf.conf
+RUN sed -i 's/#deltarpm=True/deltarpm=True/' /etc/dnf/dnf.conf
+RUN sed -i 's/#minrate=10/minrate=100/' /etc/dnf/dnf.conf
+RUN sed -i 's/#timeout=60/timeout=60/' /etc/dnf/dnf.conf
+RUN sed -i 's/retry=10/retry=10/' /etc/dnf/dnf.conf
+
+
 ###################################################################################################################
 # Download sources & setup supporting libraries that are needed to build VTK
 ###################################################################################################################
